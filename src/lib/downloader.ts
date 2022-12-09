@@ -64,7 +64,7 @@ export const downloadModule = async ({
   for (const command of installCommands) {
     const [mainCommand, ...args] = command.split(" ");
 
-    console.log(`🏃‍♂️ Running '${command}' in '${localModulePath}'...`);
+    console.log(`🐎 Running '${command}' in '${localModulePath}'...`);
 
     await execa(mainCommand, args, { cwd: localModulePath });
   }
