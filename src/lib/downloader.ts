@@ -45,7 +45,7 @@ export const downloadModule = async ({
   repo,
 }: DownloadOptions) => {
   const slug = slugify(repo);
-  const tarballURL = `https://github.com/${repo}/tarball/master/${branch}`;
+  const tarballURL = `https://github.com/${repo}/tarball/${branch}`;
   const tarball = await tmp.file({ postfix: ".tar.gz" });
 
   console.log(`⏳ Downloading '${tarballURL}'...`);
