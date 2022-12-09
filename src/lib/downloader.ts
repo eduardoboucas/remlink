@@ -48,7 +48,7 @@ export const downloadModule = async ({
   const tarballURL = `https://github.com/${repo}/tarball/${branch}`;
   const tarball = await tmp.file({ postfix: ".tar.gz" });
 
-  console.log(`⏳ Downloading '${tarballURL}'...`);
+  console.log(`🚠 Downloading '${tarballURL}'...`);
 
   await downloadFile(tarballURL, tarball.path);
 
@@ -57,14 +57,14 @@ export const downloadModule = async ({
   await fs.mkdir(localModulePath, { recursive: true });
   await tar.x({ C: localModulePath, file: tarball.path, strip: 1 });
 
-  console.log(`⏳ Installing dependencies in '${localModulePath}'...`);
+  console.log(`📦 Installing dependencies in '${localModulePath}'...`);
 
   await execa("npm", ["install", "--ignore-scripts"], { cwd: localModulePath });
 
   for (const command of installCommands) {
     const [mainCommand, ...args] = command.split(" ");
 
-    console.log(`⏳ Running '${command}' in '${localModulePath}'...`);
+    console.log(`🏃‍♂️ Running '${command}' in '${localModulePath}'...`);
 
     await execa(mainCommand, args, { cwd: localModulePath });
   }

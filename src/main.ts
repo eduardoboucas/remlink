@@ -72,11 +72,13 @@ const linkModule = async (
   const linkPaths = getModulePaths(tree, moduleName);
   const links = [...linkPaths].map(async (linkPath) => {
     try {
-      // await createLink(targetPath, linkPath);
+      await createLink(targetPath, linkPath);
 
       console.log(`🔗 Created link: '${linkPath}' 👉 '${targetPath}'`);
     } catch (error) {
       console.error(`❌ Could not link '${linkPath}':`, error);
     }
   });
+
+  await Promise.all(links);
 };
