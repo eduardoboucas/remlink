@@ -1,12 +1,16 @@
 {
   "name": "remlink",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "bin": "dist/cli.js",
   "scripts": {
+    "build": "tsc",
     "prepack": "npm run build"
   },
+  "files": [
+    "dist/**/*.js"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
