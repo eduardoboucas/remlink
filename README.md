@@ -10,9 +10,8 @@ With `remlink` you can replace every instance of a dependency (i.e. direct or tr
 
 ## Usage
 
-Create a `remlink.config.json` at the root of the parent project indicating which modules you want to replace and where you want to pull them from.
-
-With the file above, we'll replace `@netlify/config` and `@netlify/build` with an unpublished version from the `feat/test` branch on https://github.com/netlify/build.
+1. Create a `remlink.config.json` at the root of the parent project indicating which modules you want to replace and where you want to pull them from.
+2. Run `npx remlink`
 
 ```json
 {
@@ -29,6 +28,8 @@ With the file above, we'll replace `@netlify/config` and `@netlify/build` with a
   ]
 }
 ```
+
+With the file above, we'll replace `@netlify/config` and `@netlify/build` with an unpublished version from the `feat/test` branch on https://github.com/netlify/build.
 
 Under the hood, `remlink` will pull the branch, run `npm install` (and any additional commands specified in `installCommands`), and create a symlink for any instance of the modules found in the dependency tree.
 
