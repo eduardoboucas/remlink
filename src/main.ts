@@ -14,17 +14,26 @@ const getLocalModules = async (links: Link[], modulesPath: string) => {
 
   await Promise.all(
     links.map(async (link) => {
-      const modulePath = await downloadModule({
+      const { name, path } = await downloadModule({
         branch: link.branch,
         installCommands: link.installCommands,
         localPath: modulesPath,
         repo: link.repo,
       });
 
+      if (
+        link.packages === undefined ||
+        Object.keys(link.packages).length === 0
+      ) {
+        localModules.set(name, path);
+
+        return;
+      }
+
       for (const packageName in link.packages) {
         localModules.set(
           packageName,
-          resolve(modulePath, link.packages[packageName])
+          resolve(path, link.packages[packageName])
         );
       }
     })

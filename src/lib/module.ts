@@ -6,6 +6,15 @@ export interface Module {
   path: string;
 }
 
+export const getModuleName = async (modulePath: string) => {
+  const { stdout } = await execa("npm", ["info", "--json"], {
+    cwd: modulePath,
+  });
+  const data = JSON.parse(stdout) as Module;
+
+  return data.name;
+};
+
 export const getModuleTree = async (moduleNames: string[]) => {
   const { stdout } = await execa("npm", ["la", ...moduleNames, "--json"]);
   const data = JSON.parse(stdout) as Module;

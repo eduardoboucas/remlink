@@ -7,6 +7,8 @@ import slugify from "slugify";
 import tar from "tar";
 import tmp from "tmp-promise";
 
+import { getModuleName } from "./module.js";
+
 export const downloadFile = async (
   url: string,
   localPath: string
@@ -61,6 +63,14 @@ export const downloadModule = async ({
 
   await execa("npm", ["install", "--ignore-scripts"], { cwd: localModulePath });
 
+  console.log(
+    `🐎 Attempting to run 'remlink' npm script in '${localModulePath}'...`
+  );
+
+  await execa("npm", ["run", "--if-present", "remlink"], {
+    cwd: localModulePath,
+  });
+
   for (const command of installCommands) {
     const [mainCommand, ...args] = command.split(" ");
 
@@ -69,5 +79,13 @@ export const downloadModule = async ({
     await execa(mainCommand, args, { cwd: localModulePath });
   }
 
-  return localModulePath;
+  const moduleName = await getModuleName(localModulePath);
+
+  if (moduleName) {
+    console.log(`🔍 Found module '${moduleName}' in '${localModulePath}'.`);
+  } else {
+    console.log(`❗️ Did not find a module in '${localModulePath}'.`);
+  }
+
+  return { name: moduleName, path: localModulePath };
 };

@@ -11,7 +11,7 @@ interface Config {
 export interface Link {
   repo: string;
   branch: string;
-  packages: Record<string, string>;
+  packages?: Record<string, string>;
   installCommands?: string[];
 }
 
