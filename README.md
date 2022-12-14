@@ -16,23 +16,40 @@ With `remlink` you can replace every instance of a dependency (i.e. direct or tr
     {
       "links": [
         {
-          "repo": "netlify/build",
-          "branch": "feat/test",
-          "packages": {
-            "@netlify/config": "packages/config",
-            "@netlify/build": "packages/build"
-          },
+          "repo": "my-org/my-repo",
+          "branch": "some-branch",
           "installCommands": ["npm run build"]
         }
       ]
     }
     ```
 
-3. Run `npx remlink`
+2. Run `npx remlink`
 
+With this file, `remlink` will:
 
-With the file above, we'll replace `@netlify/config` and `@netlify/build` with an unpublished version from the `feat/test` branch on https://github.com/netlify/build.
+1. Download the repository at https://github.com/my-org/my-repo
+2. Run `npm install` to install its dependencies
+3. Run `npm run remlink` to run any `remlink` script that has been defined in `package.json`
+4. Run any commands listed in `installCommands`
+5. Create symlinks for any instances of the module in the dependency tree to the local module
 
-Under the hood, `remlink` will pull the branch, run `npm install` (and any additional commands specified in `installCommands`), and create a symlink for any instance of the modules found in the dependency tree.
+### Monorepos
 
-The `packages` object allows `remlink` to work with a monorepo, as you can link multiple modules from the same repository.
+If you want to link a repository that holds a monorepo, you can define a `packages` object that maps module names to their relative paths inside the repository.
+
+```json
+{
+  "links": [
+    {
+      "repo": "netlify/build",
+      "branch": "feat/test",
+      "packages": {
+        "@netlify/config": "packages/config",
+        "@netlify/build": "packages/build"
+      },
+      "installCommands": ["npm run build"]
+    }
+  ]
+}
+```
